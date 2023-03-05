@@ -1,0 +1,12 @@
+
+vae-gaussian/__pycache__/
+
+vae-gaussian/log/
+
+vae-gaussian/models/
+
+vae-gaussian/models_architecture/
+
+vae-gaussian/test_engagement/
+
+vae-gaussian/trial/
