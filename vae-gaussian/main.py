@@ -261,4 +261,4 @@ def main(num_actors=8):
 
 
 if __name__ == '__main__':
-    main(num_actors=2)  # default=4 for GCP
+    main(num_actors=4)  # default=4 for GCP
