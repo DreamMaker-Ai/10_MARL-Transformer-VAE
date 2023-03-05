@@ -60,11 +60,11 @@ class Config:
 
         # VAE parameters
         self.latent_dim = self.hidden_dim  # VAE
-        self.kl_weight = 1.0  # VAE kl-loss weights
+        self.reconst_weight = 0.1  # VAE reconstruction-loss weights
         self.vae_loss_weight = 1.0  # VAE weights
 
         # Training parameters
-        self.actor_rollout_steps = 100  # default=100
+        self.actor_rollout_steps = 250  # default=100
         self.num_update_cycles = 1000000
         self.actor_rollouts_before_train = 50  # default=50
         self.batch_size = 32  # Default=32

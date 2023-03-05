@@ -100,6 +100,9 @@ class Learner:
         indices_all = []
         td_errors_all = []
         losses = []
+        td_error_list = []
+        reconstruction_loss_list = []
+        kl_loss_list = []
 
         for (indices, correction_weights, experiences) in minibatchs:
             # indices:list, len=32; correction_weights: ndarray, (32,1); experiences: lsit, len=32
@@ -206,14 +209,26 @@ class Learner:
                 # (32,)
 
                 """ VAE loss """
-                loss_vae = reconstruction_losses + self.env.config.kl_weight * kl_losses  # (32,)
+                loss_vae = self.env.config.reconst_weight * reconstruction_losses + kl_losses
+                # (32,)
 
+                """ Total loss """
                 loss = tf.reduce_mean(
                     correction_weights *
                     (masked_td_errors + self.env.config.vae_loss_weight * loss_vae)
                 ) * self.env.config.loss_coef
 
+                """ For tensorboard """
                 losses.append(loss.numpy())
+
+                td_error = tf.reduce_mean(correction_weights * masked_td_errors)
+                td_error_list.append(td_error.numpy())
+
+                reconstruction_loss = tf.reduce_mean(correction_weights * reconstruction_losses)
+                reconstruction_loss_list.append(reconstruction_loss.numpy())
+
+                kl_loss = tf.reduce_mean(correction_weights * kl_losses)
+                kl_loss_list.append(kl_loss.numpy())
 
             # 勾配計算と更新
             grads = tape.gradient(loss, self.q_network.trainable_variables)
@@ -259,4 +274,9 @@ class Learner:
 
         self.count += 1
 
-        return current_weights, indices_all, td_errors_all, np.mean(loss)
+        return current_weights, indices_all, td_errors_all, [
+            np.mean(losses),
+            np.mean(td_error_list),
+            np.mean(reconstruction_loss_list),
+            np.mean(kl_loss_list)
+        ]

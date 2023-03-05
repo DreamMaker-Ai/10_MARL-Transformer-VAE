@@ -192,7 +192,10 @@ def main(num_actors=8):
             update_cycles += 1
 
             with summary_writer.as_default():
-                tf.summary.scalar("mean_loss of training", mean_loss, step=update_cycles)
+                tf.summary.scalar("mean_loss", mean_loss[0], step=update_cycles)
+                tf.summary.scalar("mean_td_loss", mean_loss[1], step=update_cycles)
+                tf.summary.scalar("mean_reconstruction_loss", mean_loss[2], step=update_cycles)
+                tf.summary.scalar("mean_kl-loss", mean_loss[3], step=update_cycles)
                 tf.summary.scalar("actor_cycles", actor_cycles, step=update_cycles)
 
         # Test process
