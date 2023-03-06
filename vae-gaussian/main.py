@@ -40,6 +40,11 @@ def write_config(config):
         'num_heads': config.num_heads,
         'dropout_rate': config.dropout_rate,
 
+        'latent_dim': config.latent_dim,
+        'reconst_weight' : config.reconst_weight,
+        'kl_weight': config.kl_weight,
+        'vae_loss_weight': config.vae_loss_weight,
+
         'actor_rollout_steps': config.actor_rollout_steps,
         'num_update_cycles': config.num_update_cycles,
         'actor_rollouts_before_train': config.actor_rollouts_before_train,
