@@ -188,7 +188,7 @@ class Learner:
                 reconstruction_losses0 = tf.square(states - reconst_maps)  # (32,15,15,15,6)
 
                 reconstruction_losses1 = \
-                    tf.reduce_sum(reconstruction_losses0, axis=(2, 3, 4))  # (32,15)
+                    tf.reduce_mean(reconstruction_losses0, axis=(2, 3, 4))  # (32,15)
                 reconstruction_losses1 = reconstruction_losses1 * masks  # (32,15)
 
                 # average reconstruction loss per alive agent
