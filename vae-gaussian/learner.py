@@ -209,7 +209,8 @@ class Learner:
                 # (32,)
 
                 """ VAE loss """
-                loss_vae = self.env.config.reconst_weight * reconstruction_losses + kl_losses
+                loss_vae = self.env.config.reconst_weight * reconstruction_losses + \
+                           self.env.config.kl_weight * kl_losses
                 # (32,)
 
                 """ Total loss """

@@ -208,7 +208,7 @@ class CNNModel(tf.keras.models.Model):
         self.deconv4 = \
             tf.keras.layers.TimeDistributed(
                 tf.keras.layers.Conv2DTranspose(
-                    filters=6,
+                    filters=self.config.observation_channels,
                     kernel_size=1,
                     strides=1,
                     activation='sigmoid',
@@ -245,7 +245,7 @@ class CNNModel(tf.keras.models.Model):
 
     @tf.function
     def decoder(self, features):
-        d1 = self.dense2(features)  # (1,15,256)
+        d1 = self.dense2(features)  # (1,15,576)
 
         d1 = self.reshape(d1)  # (1,15,3,3,64)
 
