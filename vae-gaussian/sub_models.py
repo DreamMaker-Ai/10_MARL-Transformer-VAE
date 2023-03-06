@@ -159,7 +159,7 @@ class CNNModel(tf.keras.models.Model):
             tf.keras.layers.Lambda(
                 self.sampling,
                 output_shape=(self.config.max_num_red_agents,
-                              self.config.latent_dim),
+                              self.config.latent_dim,),
             )
 
         self.dense2 = \
@@ -216,16 +216,16 @@ class CNNModel(tf.keras.models.Model):
             )
 
     def sampling(self, args):
-        mu, log_var = args  # (1,15,32)
-        batch = tf.keras.backend.shape(mu)[0]
-        seq = tf.keras.backend.int_shape(mu)[1]
-        dim = tf.keras.backend.int_shape(mu)[2]
+        mu, log_var = args  # (1,n,latent_dim), (1,n,latent_dim), n=15, latent_dim=256
+        batch = tf.keras.backend.shape(mu)[0]  # 1
+        seq = tf.keras.backend.int_shape(mu)[1]  # 15
+        dim = tf.keras.backend.int_shape(mu)[2]  # 256
 
-        epsilon = tf.random.normal(shape=(batch, seq, dim))  # (1,15,256)
+        epsilon = tf.random.normal(shape=(batch, seq, dim))  # (1, 15,256)
 
         return mu + tf.exp(log_var / 2) * epsilon  # (1,15,256)
 
-    @tf.function
+    #@tf.function
     def encoder(self, inputs):
         # inputs: (b,n,g,g,ch*n_frames)=(1,15,15,15,6)
 
@@ -243,7 +243,7 @@ class CNNModel(tf.keras.models.Model):
 
         return z_mu, z_logvar, z  # (1,15,256), (1,15,256), (1,15,256)
 
-    @tf.function
+    #@tf.function
     def decoder(self, features):
         d1 = self.dense2(features)  # (1,15,576)
 
@@ -256,7 +256,7 @@ class CNNModel(tf.keras.models.Model):
 
         return reconst
 
-    @tf.function
+    #@tf.function
     def call(self, inputs, mask):
         # inputs: (b,n,g,g,ch*n_frames)=(1,15,15,15,6)
         # mask: (b,n)=(1,15), bool

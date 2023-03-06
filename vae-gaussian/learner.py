@@ -225,10 +225,16 @@ class Learner:
                 td_error = tf.reduce_mean(correction_weights * masked_td_errors)
                 td_error_list.append(td_error.numpy())
 
-                reconstruction_loss = tf.reduce_mean(correction_weights * reconstruction_losses)
+                reconstruction_loss = tf.reduce_mean(
+                    correction_weights * self.env.config.vae_loss_weight *
+                    self.env.config.reconst_weight * reconstruction_losses
+                )
                 reconstruction_loss_list.append(reconstruction_loss.numpy())
 
-                kl_loss = tf.reduce_mean(correction_weights * kl_losses)
+                kl_loss = tf.reduce_mean(
+                    correction_weights * self.env.config.vae_loss_weight *
+                    self.env.config.kl_weight * kl_losses
+                )
                 kl_loss_list.append(kl_loss.numpy())
 
             # 勾配計算と更新

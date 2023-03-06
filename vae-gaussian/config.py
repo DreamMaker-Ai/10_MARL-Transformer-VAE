@@ -52,8 +52,8 @@ class Config:
         self.prioritized_replay = True
 
         # Neural nets parameters
-        self.hidden_dim = 64
-        self.key_dim = 64
+        self.hidden_dim = 128
+        self.key_dim = 128
         self.num_heads = 2
 
         self.dropout_rate = 0.2  # default=0.2
@@ -62,7 +62,7 @@ class Config:
         self.latent_dim = self.hidden_dim  # VAE
         self.reconst_weight = 0.1  # VAE reconstruction-loss weights
         self.kl_weight = 10.0  # VAE KL-loss weights
-        self.vae_loss_weight = 0.1  # VAE weights
+        self.vae_loss_weight = 0.01  # VAE weights
 
         # Training parameters
         self.actor_rollout_steps = 250  # default=100（小さいとメモリ消費が激しい））
