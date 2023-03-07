@@ -166,7 +166,7 @@ class CNNModel(tf.keras.models.Model):
             tf.keras.layers.TimeDistributed(
                 tf.keras.layers.Dense(
                     units=576,
-                    activation='relu',
+                    activation=None,
                 )
             )
 
@@ -207,7 +207,7 @@ class CNNModel(tf.keras.models.Model):
 
         self.deconv4 = \
             tf.keras.layers.TimeDistributed(
-                tf.keras.layers.Conv2DTranspose(
+                tf.keras.layers.Conv2D(
                     filters=self.config.observation_channels,
                     kernel_size=1,
                     strides=1,
@@ -225,7 +225,7 @@ class CNNModel(tf.keras.models.Model):
 
         return mu + tf.exp(log_var / 2) * epsilon  # (1,15,256)
 
-    #@tf.function
+    @tf.function
     def encoder(self, inputs):
         # inputs: (b,n,g,g,ch*n_frames)=(1,15,15,15,6)
 
@@ -243,7 +243,7 @@ class CNNModel(tf.keras.models.Model):
 
         return z_mu, z_logvar, z  # (1,15,256), (1,15,256), (1,15,256)
 
-    #@tf.function
+    @tf.function
     def decoder(self, features):
         d1 = self.dense2(features)  # (1,15,576)
 
@@ -256,7 +256,7 @@ class CNNModel(tf.keras.models.Model):
 
         return reconst
 
-    #@tf.function
+    @tf.function
     def call(self, inputs, mask):
         # inputs: (b,n,g,g,ch*n_frames)=(1,15,15,15,6)
         # mask: (b,n)=(1,15), bool
