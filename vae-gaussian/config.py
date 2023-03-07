@@ -61,7 +61,7 @@ class Config:
         # VAE parameters
         self.latent_dim = self.hidden_dim  # VAE
         self.reconst_weight = 0.1  # VAE reconstruction-loss weights
-        self.kl_weight = 10.0  # VAE KL-loss weights
+        self.kl_weight = 500.0  # VAE KL-loss weights
         self.vae_loss_weight = 0.1  # VAE weights
 
         # Training parameters
