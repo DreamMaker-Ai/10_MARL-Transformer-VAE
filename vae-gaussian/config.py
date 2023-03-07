@@ -60,9 +60,9 @@ class Config:
 
         # VAE parameters
         self.latent_dim = self.hidden_dim  # VAE
-        self.reconst_weight = 0.1  # VAE reconstruction-loss weights
-        self.kl_weight = 500.0  # VAE KL-loss weights
-        self.vae_loss_weight = 0.1  # VAE weights
+        self.reconst_weight = 1.  # VAE reconstruction-loss weights
+        self.kl_weight = 1.  # VAE KL-loss weights
+        self.vae_loss_weight = 0.5  # VAE weights
 
         # Training parameters
         self.actor_rollout_steps = 250  # default=100（小さいとメモリ消費が激しい））

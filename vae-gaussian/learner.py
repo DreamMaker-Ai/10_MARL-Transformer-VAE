@@ -185,10 +185,29 @@ class Learner:
                     tf.reduce_sum(masks, axis=-1)  # (32,)
 
                 """ VAE reconstruction loss """
-                reconstruction_losses0 = tf.square(states - reconst_maps)  # (32,15,15,15,6)
+                broadcast_float_mask = \
+                    tf.expand_dims(
+                        tf.cast(masks, 'float32'),
+                        axis=-1
+                    )  # Add feature dim for broadcast, (32,15,1)
+
+                broadcast_float_mask = \
+                    tf.expand_dims(
+                        tf.cast(broadcast_float_mask, 'float32'),
+                        axis=-1
+                    )  # Add feature dim for broadcast, (32,15,1,1)
+
+                broadcast_float_mask = \
+                    tf.expand_dims(
+                        tf.cast(broadcast_float_mask, 'float32'),
+                        axis=-1
+                    )  # Add feature dim for broadcast, (32,15,1,1,1)
+
+                reconstruction_losses0 = \
+                    tf.square((states - reconst_maps) * broadcast_float_mask)  # (32,15,15,15,6)
 
                 reconstruction_losses1 = \
-                    tf.reduce_mean(reconstruction_losses0, axis=(2, 3, 4))  # (32,15)
+                    tf.reduce_sum(reconstruction_losses0, axis=(2, 3, 4))  # (32,15)
                 reconstruction_losses1 = reconstruction_losses1 * masks  # (32,15)
 
                 # average reconstruction loss per alive agent
