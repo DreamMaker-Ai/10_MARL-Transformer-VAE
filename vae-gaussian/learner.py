@@ -185,7 +185,7 @@ class Learner:
                     tf.reduce_sum(masks, axis=-1)  # (32,)
 
                 """ VAE reconstruction loss """
-                broadcast_float_mask = \
+                broadcast_float_mask_0 = \
                     tf.expand_dims(
                         tf.cast(masks, 'float32'),
                         axis=-1
@@ -193,7 +193,7 @@ class Learner:
 
                 broadcast_float_mask = \
                     tf.expand_dims(
-                        tf.cast(broadcast_float_mask, 'float32'),
+                        tf.cast(broadcast_float_mask_0, 'float32'),
                         axis=-1
                     )  # Add feature dim for broadcast, (32,15,1,1)
 
@@ -219,7 +219,8 @@ class Learner:
                 z_mu, z_logvar = z_stats
 
                 kl_losses0 = 1 + z_logvar - tf.square(z_mu) - tf.exp(z_logvar)  # (32,15,256)
-                kl_losses0 = -0.5 * tf.reduce_sum(kl_losses0, axis=-1)  # (32,15)
+                kl_losses0 = \
+                    -0.5 * tf.reduce_sum(kl_losses0 * broadcast_float_mask_0, axis=-1)  # (32,15)
 
                 kl_losses1 = kl_losses0 * masks  # (32,15)
 
