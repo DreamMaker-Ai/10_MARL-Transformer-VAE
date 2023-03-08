@@ -166,7 +166,7 @@ class CNNModel(tf.keras.models.Model):
             tf.keras.layers.TimeDistributed(
                 tf.keras.layers.Dense(
                     units=576,
-                    activation=None,
+                    activation='relu',
                 )
             )
 
