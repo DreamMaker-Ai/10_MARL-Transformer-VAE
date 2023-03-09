@@ -52,8 +52,8 @@ class Config:
         self.prioritized_replay = True
 
         # Neural nets parameters
-        self.hidden_dim = 64
-        self.key_dim = 64
+        self.hidden_dim = 256
+        self.key_dim = 128
         self.num_heads = 2
 
         self.dropout_rate = 0.2  # default=0.2
